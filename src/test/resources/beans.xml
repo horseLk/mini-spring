@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean id="aservice" class="org.example.service.impl.AServiceImpl">
+        <constructor-arg type="String" name="name" value="abc"/>
+        <constructor-arg type="int" name="level" value="3"/>
+        <property type="String" name="property1" value="Someone says"/>
+        <property type="String" name="property2" value="Hello World!"/>
+<!--        <property type="org.example.service.BaseService" name="baseService" ref="baseService"/>-->
+    </bean>
+    <bean id="baseService" class="org.example.service.impl.BaseServiceImpl">
+<!--        <property type="org.example.service.AService" name="aservice" ref="aservice" />-->
+    </bean>
+    <bean id="webBindingInitializer" class="org.example.dataEditor.DateInitializer">
+    </bean>
+</beans>
