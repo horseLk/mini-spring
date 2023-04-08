@@ -1,4 +1,4 @@
-package com.minis.web;
+package com.minis.web.context.support;
 
 import com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.minis.beans.factory.config.BeanDefinition;
@@ -10,6 +10,7 @@ import com.minis.context.ApplicationEvent;
 import com.minis.context.ApplicationListener;
 import com.minis.context.ApplicationEventPublisher;
 import com.minis.context.SimpleApplicationEventPublisher;
+import com.minis.web.context.WebApplicationContext;
 
 import javax.servlet.ServletContext;
 import java.io.File;

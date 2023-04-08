@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.minis.beans.BeansException;
 import com.minis.context.ClassPathXmlApplicationContext;
-import com.minis.web.DispatcherServlet;
+import com.minis.web.servlet.DispatcherServlet;
 import org.example.service.AService;
 import org.example.service.BaseService;
 import org.junit.Test;

@@ -1,7 +1,10 @@
-package com.minis.web;
+package com.minis.web.servlet;
 
 import com.minis.beans.BeansException;
-import com.minis.web.servlet.*;
+import com.minis.web.context.WebApplicationContext;
+import com.minis.web.context.support.AnnotationConfigWebApplicationContext;
+import com.minis.web.method.HandlerMethod;
+import com.minis.web.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

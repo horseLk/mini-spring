@@ -11,8 +11,8 @@
 <!--        <property type="org.example.service.AService" name="aservice" ref="aservice" />-->
     </bean>
 
-    <bean id="handlerAdapter" class="com.minis.web.servlet.RequestMappingHandlerAdapter">
-        <property type="com.minis.web.WebBindingInitializer" name="webBindingInitializer" ref="webBindingInitializer"/>
+    <bean id="handlerAdapter" class="com.minis.web.method.annotation.RequestMappingHandlerAdapter">
+        <property type="com.minis.web.bind.support.WebBindingInitializer" name="webBindingInitializer" ref="webBindingInitializer"/>
         <property type="com.minis.web.HttpMessageConverter" name="httpMessageConverter" ref="httpMessageConverter"/>
     </bean>
     <bean id="webBindingInitializer" class="org.example.dateEditor.DateInitializer">

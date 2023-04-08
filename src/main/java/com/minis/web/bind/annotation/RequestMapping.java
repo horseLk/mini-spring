@@ -1,12 +1,12 @@
-package com.minis.web.annotation;
+package com.minis.web.bind.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.METHOD})
+@Target(value={ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ResponseBody {
-
+public @interface RequestMapping {
+    String value() default "";
 }

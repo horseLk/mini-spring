@@ -1,8 +1,8 @@
 package org.example.controller;
 
 import com.minis.beans.factory.annotation.Autowired;
-import com.minis.web.RequestMapping;
-import com.minis.web.annotation.ResponseBody;
+import com.minis.web.bind.annotation.RequestMapping;
+import com.minis.web.bind.annotation.ResponseBody;
 import com.minis.web.servlet.ModelAndView;
 import org.example.service.AService;
 

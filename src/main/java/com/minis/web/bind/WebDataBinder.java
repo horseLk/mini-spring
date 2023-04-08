@@ -1,8 +1,9 @@
-package com.minis.web;
+package com.minis.web.bind;
 
 import com.minis.beans.PropertyEditor;
 import com.minis.beans.PropertyValues;
 import com.minis.util.WebUtils;
+import com.minis.web.BeanWrapperImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;

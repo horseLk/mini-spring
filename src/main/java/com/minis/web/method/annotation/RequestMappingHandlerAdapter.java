@@ -1,8 +1,13 @@
-package com.minis.web.servlet;
+package com.minis.web.method.annotation;
 
-import com.minis.beans.BeansException;
 import com.minis.web.*;
-import com.minis.web.annotation.ResponseBody;
+import com.minis.web.bind.WebDataBinder;
+import com.minis.web.bind.annotation.ResponseBody;
+import com.minis.web.bind.support.WebBindingInitializer;
+import com.minis.web.bind.support.WebDataBinderFactory;
+import com.minis.web.method.HandlerMethod;
+import com.minis.web.servlet.HandlerAdapter;
+import com.minis.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
