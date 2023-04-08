@@ -44,8 +44,7 @@ public class PropertyEditorRegistrySupport {
 
     //查找客户化转换器
     public PropertyEditor findCustomEditor(Class<?> requiredType) {
-        Class<?> requiredTypeToUse = requiredType;
-        return getCustomEditor(requiredTypeToUse);
+        return getCustomEditor(requiredType);
     }
 
     public boolean hasCustomEditorForElement(Class<?> elementType) {
@@ -57,7 +56,6 @@ public class PropertyEditorRegistrySupport {
         if (requiredType == null || this.customEditors == null) {
             return null;
         }
-        PropertyEditor editor = this.customEditors.get(requiredType);
-        return editor;
+        return this.customEditors.get(requiredType);
     }
 }

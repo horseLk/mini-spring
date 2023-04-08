@@ -1,5 +1,6 @@
 package com.minis.web;
 
+import com.minis.beans.BeansException;
 import com.minis.web.servlet.*;
 
 import javax.servlet.ServletConfig;
@@ -8,8 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
+
 public class DispatcherServlet extends HttpServlet {
     public static final String WEB_APPLICATION_CONTEXT_ATTRIBUTE = DispatcherServlet.class.getName() + ".CONTEXT";
+
+    private static final String HANDLER_ADAPTER_BEAN_NAME = "handlerAdapter";
+
+    private static final String VIEW_RESOLVER_BEAN_NAME = "viewResolver";
 
     private String sContextConfigLocation;
 
@@ -20,6 +27,8 @@ public class DispatcherServlet extends HttpServlet {
     private HandlerAdapter handlerAdapter;
 
     private HandlerMapping handlerMapping;
+
+    private ViewResolver viewResolver;
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -35,6 +44,7 @@ public class DispatcherServlet extends HttpServlet {
     protected void refresh() {
         initHandlerMappings(this.webApplicationContext);
         initHandlerAdapters(this.webApplicationContext);
+        initViewResolvers(this.webApplicationContext);
     }
 
     protected void initHandlerMappings(WebApplicationContext wac) {
@@ -42,7 +52,19 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     protected void initHandlerAdapters(WebApplicationContext wac) {
-        this.handlerAdapter = new RequestMappingHandlerAdapter(wac);
+        try {
+            this.handlerAdapter = (HandlerAdapter) wac.getBean(HANDLER_ADAPTER_BEAN_NAME);
+        } catch (BeansException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initViewResolvers(WebApplicationContext wac) {
+        try {
+            this.viewResolver = (ViewResolver) wac.getBean(VIEW_RESOLVER_BEAN_NAME);
+        } catch (BeansException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -66,6 +88,26 @@ public class DispatcherServlet extends HttpServlet {
         }
 
         HandlerAdapter ha = this.handlerAdapter;
-        ha.handle(processedRequest, response, handlerMethod);
+        ModelAndView mav = ha.handle(processedRequest, response, handlerMethod);
+        if (mav != null) {
+            render(processedRequest, response, mav);
+        }
+    }
+
+    private void render(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) throws Exception {
+        String sTarget = mv.getViewName();
+        Map<String, Object> modelMap = mv.getModel();
+        View view = resolveViewName(sTarget, modelMap, request);
+        view.render(modelMap, request, response);
+    }
+
+    private View resolveViewName(String viewName, Map<String, Object> modelMap, HttpServletRequest request) throws Exception {
+        if (this.viewResolver != null) {
+            View view = viewResolver.resolveViewName(viewName);
+            if (view != null) {
+                return view;
+            }
+        }
+        return null;
     }
 }

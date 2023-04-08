@@ -1,4 +1,4 @@
-package org.example.dataEditor;
+package org.example.dateEditor;
 
 import com.minis.beans.PropertyEditor;
 import com.minis.util.StringUtils;

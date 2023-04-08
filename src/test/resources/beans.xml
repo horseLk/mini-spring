@@ -10,6 +10,24 @@
     <bean id="baseService" class="org.example.service.impl.BaseServiceImpl">
 <!--        <property type="org.example.service.AService" name="aservice" ref="aservice" />-->
     </bean>
-    <bean id="webBindingInitializer" class="org.example.dataEditor.DateInitializer">
+
+    <bean id="handlerAdapter" class="com.minis.web.servlet.RequestMappingHandlerAdapter">
+        <property type="com.minis.web.WebBindingInitializer" name="webBindingInitializer" ref="webBindingInitializer"/>
+        <property type="com.minis.web.HttpMessageConverter" name="httpMessageConverter" ref="httpMessageConverter"/>
+    </bean>
+    <bean id="webBindingInitializer" class="org.example.dateEditor.DateInitializer">
+    </bean>
+    <bean id="httpMessageConverter" class="com.minis.web.DefaultHttpMessageConverter">
+        <property type="com.minis.util.ObjectMapper" name="objectMapper" ref="objectMapper"/>
+    </bean>
+    <bean id="objectMapper" class="com.minis.util.DefaultObjectMapper">
+        <property type="String" name="dateFormat" value="yyyy-MM-dd"/>
+        <property type="String" name="decimalFormat" value="###.##"/>
+    </bean>
+
+    <bean id="viewResolver" class="com.minis.web.servlet.view.InternalResourceViewResolver">
+        <property type="String" name="viewClassName" value="com.minis.web.servlet.view.JstlView" />
+        <property type="String" name="prefix" value="/jsp/" />
+        <property type="String" name="suffix" value=".jsp" />
     </bean>
 </beans>

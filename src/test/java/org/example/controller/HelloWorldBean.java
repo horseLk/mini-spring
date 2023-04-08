@@ -2,6 +2,8 @@ package org.example.controller;
 
 import com.minis.beans.factory.annotation.Autowired;
 import com.minis.web.RequestMapping;
+import com.minis.web.annotation.ResponseBody;
+import com.minis.web.servlet.ModelAndView;
 import org.example.service.AService;
 
 public class HelloWorldBean {
@@ -18,9 +20,22 @@ public class HelloWorldBean {
     }
 
     @RequestMapping("/helloworld")
-    public String doGet() {
+    @ResponseBody
+    public Output doGet(Input input) {
         aservice.sayHello();
-        return "hello world!";
+        return new Output(input.x, input.y);
+    }
+
+    @RequestMapping("/error")
+    public String error() {
+        return "error";
+    }
+
+    @RequestMapping("/test")
+    public ModelAndView test() {
+        ModelAndView mv = new ModelAndView("test");
+        mv.addAttribute("msg", "hello world");
+        return mv;
     }
 
     public String doPost() {

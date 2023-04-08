@@ -1,4 +1,4 @@
-package org.example.dataEditor;
+package org.example.dateEditor;
 
 import com.minis.web.WebBindingInitializer;
 import com.minis.web.WebDataBinder;

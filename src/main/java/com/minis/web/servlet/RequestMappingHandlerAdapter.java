@@ -1,45 +1,51 @@
 package com.minis.web.servlet;
 
 import com.minis.beans.BeansException;
-import com.minis.web.WebApplicationContext;
-import com.minis.web.WebBindingInitializer;
-import com.minis.web.WebDataBinder;
-import com.minis.web.WebDataBinderFactory;
+import com.minis.web.*;
+import com.minis.web.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
 public class RequestMappingHandlerAdapter implements HandlerAdapter {
-    WebApplicationContext wac;
 
     private WebBindingInitializer webBindingInitializer = null;
+    private HttpMessageConverter httpMessageConverter = null;
+    public WebBindingInitializer getWebBindingInitializer() {
+        return webBindingInitializer;
+    }
 
-    public RequestMappingHandlerAdapter(WebApplicationContext wac) {
-        this.wac = wac;
-        try {
-            this.webBindingInitializer = (WebBindingInitializer) this.wac.getBean("webBindingInitializer");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setWebBindingInitializer(WebBindingInitializer webBindingInitializer) {
+        this.webBindingInitializer = webBindingInitializer;
+    }
+
+    public HttpMessageConverter getHttpMessageConverter() {
+        return httpMessageConverter;
+    }
+
+    public void setHttpMessageConverter(HttpMessageConverter httpMessageConverter) {
+        this.httpMessageConverter = httpMessageConverter;
     }
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        handleInternal(request, response, (HandlerMethod) handler);
+    public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        return handleInternal(request, response, (HandlerMethod) handler);
     }
 
-    private void handleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler) {
+    private ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler) {
+        ModelAndView mav = null;
         try {
-            invokeHandlerMethod(request, response, handler);
+            mav = invokeHandlerMethod(request, response, handler);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return mav;
+
     }
 
-    private void invokeHandlerMethod(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
+    private ModelAndView invokeHandlerMethod(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
         WebDataBinderFactory binderFactory = new WebDataBinderFactory();
         Parameter[] methodParameters = handlerMethod.getMethod().getParameters();
         Object[] methodParamObjs = new Object[methodParameters.length];
@@ -49,12 +55,28 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter {
             Object methodParamObj = methodParameter.getType().newInstance();
             // 给这个参数创造WebDataBinder
             WebDataBinder wdb = binderFactory.createBinder(request, methodParamObj, methodParameter.getName());
+            if (webBindingInitializer != null) {
+                webBindingInitializer.initBinder(wdb);
+            }
             wdb.bind(request);
             methodParamObjs[i] = methodParamObj;
             i++;
         }
         Method invocableMethod = handlerMethod.getMethod();
+
+        ModelAndView mav = null;
         Object returnObj = invocableMethod.invoke(handlerMethod.getBean(), methodParamObjs);
-        response.getWriter().append(returnObj.toString());
+        if (invocableMethod.isAnnotationPresent(ResponseBody.class)) { // responseBody
+            this.httpMessageConverter.write(returnObj, response);
+        } else {
+            if (returnObj instanceof ModelAndView) {
+                mav = (ModelAndView)returnObj;
+            } else if (returnObj instanceof String) { // 字符串也认为是前端页面
+                String sTarget = (String)returnObj;
+                mav = new ModelAndView();
+                mav.setViewName(sTarget);
+            }
+        }
+        return mav;
     }
 }
