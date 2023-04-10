@@ -30,4 +30,17 @@
         <property type="String" name="prefix" value="/jsp/" />
         <property type="String" name="suffix" value=".jsp" />
     </bean>
+
+    <bean id="userService" class="org.example.service.impl.UserServiceImpl">
+    </bean>
+    <bean id="jdbcTemplate" class="com.minis.jdbc.core.JdbcTemplate">
+    </bean>
+    <bean id="userDao" class="org.example.dao.UserDao">
+    </bean>
+    <bean id="dataSource" class="com.minis.jdbc.datasource.SingleConnectionDataSource">
+        <property type="String" name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property type="String" name="url" value="jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>
+        <property type="String" name="username" value="root"/>
+        <property type="String" name="password" value="horse..0"/>
+    </bean>
 </beans>
