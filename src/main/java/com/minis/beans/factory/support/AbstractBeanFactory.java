@@ -224,15 +224,18 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
                 if (!isRef) {
                     if ("String".equals(pType) || "java.lang.String".equals(pType)) {
                         paramTypes[0] = String.class;
+                        paramValues[0] = pValue;
                     } else if ("Integer".equals(pType) || "java.lang.Integer".equals(pType)) {
                         paramTypes[0] = Integer.class;
+                        paramValues[0] = Integer.valueOf((String) pValue);
                     } else if ("int".equals(pType)) {
                         paramTypes[0] = int.class;
+                        paramValues[0] = Integer.valueOf((String) pValue).intValue();
                     } else {
                         // 默认为string
                         paramTypes[0] = String.class;
+                        paramValues[0] = pValue;
                     }
-                    paramValues[0] = pValue;
                 } else {
                     // ref
                     try {

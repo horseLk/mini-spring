@@ -11,6 +11,8 @@ import org.example.service.BaseService;
 import org.example.service.UserService;
 import org.junit.Test;
 
+import java.util.List;
+
 /**
  * Unit test for simple App.
  */
@@ -45,6 +47,10 @@ public class AppTest
             UserService userService = (UserService) context.getBean("userService");
             User user = userService.getUserInfo(1);
             System.out.println(user);
+            User user2 = userService.getUserInfo2(1);
+            System.out.println(user2);
+            List<User> users = userService.getUserInfos(1);
+            System.out.println(users);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
