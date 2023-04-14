@@ -64,7 +64,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     private void invokeInitMethod(BeanDefinition beanDefinition, Object obj) {
-        Class<?> clz = beanDefinition.getClass();
+        Class<?> clz = obj.getClass();
         Method method = null;
         try {
             method = clz.getMethod(beanDefinition.getInitMethodName());

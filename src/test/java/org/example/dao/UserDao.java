@@ -1,5 +1,7 @@
 package org.example.dao;
 
+import com.minis.batis.SqlSession;
+import com.minis.batis.SqlSessionFactory;
 import com.minis.beans.factory.annotation.Autowired;
 import com.minis.jdbc.core.JdbcTemplate;
 import com.minis.jdbc.core.RowMapper;
@@ -10,6 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserDao {
+    @Autowired
+    SqlSessionFactory sqlSessionFactory;
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -34,8 +39,9 @@ public class UserDao {
     }
 
     public User getUserInfoById2(int userId) {
-        String sql = "select * from t_user where id=?";
-        return (User) jdbcTemplate.query(sql, new Object[]{new Integer(userId)}, pstmt -> {
+        String sqlId = "org.example.domain.User.getUserInfo";
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        return (User) sqlSession.selectOne(sqlId, new Object[]{new Integer(userId)}, pstmt -> {
             ResultSet rs = pstmt.executeQuery();
             User rtnUser = null;
             try {

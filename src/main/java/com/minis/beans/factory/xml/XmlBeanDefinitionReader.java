@@ -27,6 +27,8 @@ public class XmlBeanDefinitionReader {
             String beanID = element.attributeValue("id");
             String beanClassName = element.attributeValue("class");
             BeanDefinition beanDefinition = new BeanDefinition(beanID, beanClassName);
+            String initMethod = element.attributeValue("init-method");
+            beanDefinition.setInitMethodName(initMethod);
 
             // 处理属性
             List<Element> propertyElement = element.elements("property");
