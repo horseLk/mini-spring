@@ -3,6 +3,7 @@ package com.minis.beans.factory.support;
 import com.minis.beans.BeansException;
 import com.minis.beans.PropertyValue;
 import com.minis.beans.PropertyValues;
+import com.minis.beans.factory.FactoryBean;
 import com.minis.beans.factory.config.*;
 
 import java.lang.reflect.Constructor;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory, BeanDefinitionRegistry {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory, BeanDefinitionRegistry {
     protected Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
 
     protected List<String> beanDefinitionNames = new ArrayList<>();
@@ -60,7 +61,22 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
                 }
             }
         }
+
+        if (singleton instanceof FactoryBean) {
+            return this.getObjectForBeanInstance(singleton, beanName);
+        }
         return singleton;
+    }
+
+    protected Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        // Now we have the bean instance, which may be a normal bean or a FactoryBean.
+        if (!(beanInstance instanceof FactoryBean)) {
+            return beanInstance;
+        }
+        Object obj = null;
+        FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
+        obj = getObjectFromFactoryBean(factoryBean, beanName);
+        return obj;
     }
 
     private void invokeInitMethod(BeanDefinition beanDefinition, Object obj) {
