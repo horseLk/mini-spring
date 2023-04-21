@@ -6,10 +6,7 @@ import com.minis.beans.BeansException;
 import com.minis.context.ClassPathXmlApplicationContext;
 import com.minis.web.servlet.DispatcherServlet;
 import org.example.domain.User;
-import org.example.service.AService;
-import org.example.service.AopTestService;
-import org.example.service.BaseService;
-import org.example.service.UserService;
+import org.example.service.*;
 import org.junit.Test;
 
 import java.util.List;
@@ -63,6 +60,17 @@ public class AppTest
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         try {
             AopTestService aopTestService = (AopTestService) context.getBean("aopTestService");
+            aopTestService.doAction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testAop2() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        try {
+            AopTestService2 aopTestService = (AopTestService2) context.getBean("aopTestService2");
             aopTestService.doAction();
         } catch (Exception e) {
             e.printStackTrace();

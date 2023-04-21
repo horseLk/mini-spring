@@ -49,7 +49,16 @@
     </bean>
 
     <bean id="realService" class="org.example.service.impl.AopTestServiceImpl"/>
-    <bean id="aopTestService" class="com.minis.aop.ProxyFactoryBean">
+    <bean id="tracingInterceptor" class="org.example.interceptor.TracingInterceptor"/>
+    <bean id="aopTestService" class="com.minis.aop.ProxyFactoryBean" init-method="initializeAdvisor">
         <property type="java.lang.Object" name="target" ref="realService"/>
+        <property type="String" name="interceptorName" value="tracingInterceptor"/>
+    </bean>
+
+    <bean id="realService2" class="org.example.service.impl.AopTestService2Impl"/>
+    <bean id="beforeInterceptor" class="org.example.interceptor.MyBeforeAdvice"/>
+    <bean id="aopTestService2" class="com.minis.aop.ProxyFactoryBean" init-method="initializeAdvisor">
+        <property type="java.lang.Object" name="target" ref="realService2"/>
+        <property type="String" name="interceptorName" value="beforeInterceptor"/>
     </bean>
 </beans>
