@@ -56,21 +56,10 @@ public class AppTest
     }
 
     @Test
-    public void testAop1() {
+    public void testAop3() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         try {
             AopTestService aopTestService = (AopTestService) context.getBean("aopTestService");
-            aopTestService.doAction();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void testAop2() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-        try {
-            AopTestService2 aopTestService = (AopTestService2) context.getBean("aopTestService2");
             aopTestService.doAction();
         } catch (Exception e) {
             e.printStackTrace();

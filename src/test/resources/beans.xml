@@ -52,13 +52,10 @@
     <bean id="tracingInterceptor" class="org.example.interceptor.TracingInterceptor"/>
     <bean id="aopTestService" class="com.minis.aop.ProxyFactoryBean" init-method="initializeAdvisor">
         <property type="java.lang.Object" name="target" ref="realService"/>
-        <property type="String" name="interceptorName" value="tracingInterceptor"/>
+        <property type="String" name="interceptorName" value="advisor"/>
     </bean>
-
-    <bean id="realService2" class="org.example.service.impl.AopTestService2Impl"/>
-    <bean id="beforeInterceptor" class="org.example.interceptor.MyBeforeAdvice"/>
-    <bean id="aopTestService2" class="com.minis.aop.ProxyFactoryBean" init-method="initializeAdvisor">
-        <property type="java.lang.Object" name="target" ref="realService2"/>
-        <property type="String" name="interceptorName" value="beforeInterceptor"/>
+    <bean id="advisor" class="com.minis.aop.NameMatchMethodPointcutAdvisor">
+        <property type="com.minis.aop.Advice" name="advice" ref="tracingInterceptor"/>
+        <property type="String" name="mappedName" value="do*"/>
     </bean>
 </beans>
