@@ -47,7 +47,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
                 BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
                 if (beanDefinition != null) {
                     singleton = createBean(beanDefinition);
-                    this.registerBean(beanName, singleton);
                     if (singleton instanceof BeanFactoryAware) {
                         ((BeanFactoryAware) singleton).setBeanFactory(this);
                     }
@@ -62,6 +61,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
                     }
                     // step 3: postProcessAfterInitialization
                     singleton = applyBeanPostProcessorsAfterInitialization(singleton, beanName);
+                    this.registerBean(beanName, singleton);
                 }
             }
         }

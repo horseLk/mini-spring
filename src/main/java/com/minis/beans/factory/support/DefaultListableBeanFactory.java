@@ -61,16 +61,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     }
 
     @Override
-    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-
-    }
-
-    @Override
-    public void registerDependentBean(String beanName, String dependentBeanName) {
-
-    }
-
-    @Override
     public String[] getDependentBeans(String beanName) {
         return new String[0];
     }

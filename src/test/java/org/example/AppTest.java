@@ -59,7 +59,18 @@ public class AppTest
     public void testAop3() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         try {
-            AopTestService aopTestService = (AopTestService) context.getBean("aopTestService");
+            AopTestService aopTestService = (AopTestService) context.getBean("realService");
+            aopTestService.doAction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testAop4() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        try {
+            AopTestService2 aopTestService = (AopTestService2) context.getBean("realService2");
             aopTestService.doAction();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.minis.beans.factory.annotation;
 
 import com.minis.beans.BeansException;
+import com.minis.beans.factory.BeanFactory;
 import com.minis.beans.factory.config.AutowireCapableBeanFactory;
 import com.minis.beans.factory.config.BeanPostProcessor;
 import com.minis.beans.factory.support.AbstractBeanFactory;
@@ -8,7 +9,7 @@ import com.minis.beans.factory.support.AbstractBeanFactory;
 import java.lang.reflect.Field;
 
 public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
-    private AbstractBeanFactory beanFactory;
+    private BeanFactory beanFactory;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -40,11 +41,12 @@ public class AutowiredAnnotationBeanPostProcessor implements BeanPostProcessor {
         return bean;
     }
 
-    public AbstractBeanFactory getBeanFactory() {
+    public BeanFactory getBeanFactory() {
         return beanFactory;
     }
 
-    public void setBeanFactory(AbstractBeanFactory beanFactory) {
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 }

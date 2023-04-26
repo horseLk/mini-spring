@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory  {
-    private final List<AutowiredAnnotationBeanPostProcessor> beanPostProcessors = new ArrayList<>();
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
 
-    public void addBeanPostProcessor(AutowiredAnnotationBeanPostProcessor beanPostProcessor) {
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
         this.beanPostProcessors.remove(beanPostProcessor);
         this.beanPostProcessors.add(beanPostProcessor);
     }
@@ -20,14 +21,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return this.beanPostProcessors.size();
     }
 
-    public List<AutowiredAnnotationBeanPostProcessor> getBeanPostProcessors() {
+    public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
     }
 
     @Override
     public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException {
         Object result = existingBean;
-        for (AutowiredAnnotationBeanPostProcessor beanPostProcessor : this.beanPostProcessors) {
+        for (BeanPostProcessor beanPostProcessor : this.beanPostProcessors) {
             beanPostProcessor.setBeanFactory(this);
             result = beanPostProcessor.postProcessBeforeInitialization(result, beanName);
             if (result == null) {
@@ -40,7 +41,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException {
         Object result = existingBean;
-        for (AutowiredAnnotationBeanPostProcessor beanPostProcessor : this.beanPostProcessors) {
+        for (BeanPostProcessor beanPostProcessor : this.beanPostProcessors) {
             beanPostProcessor.setBeanFactory(this);
             result = beanPostProcessor.postProcessAfterInitialization(result, beanName);
             if (result == null) {
