@@ -84,4 +84,25 @@ public class JdbcTemplate {
         return null;
     }
 
+    public Integer update(StatementCallback stmtCallback) {
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            conn = dataSource.getConnection();
+            stmt = conn.createStatement();
+            return (Integer) stmtCallback.doInStatement(stmt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
 }

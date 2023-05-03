@@ -5,4 +5,6 @@
         from t_user
         where id=?
     </select>
+
+<!--    <update id="updateUserInfo1" para-->
 </mapper>

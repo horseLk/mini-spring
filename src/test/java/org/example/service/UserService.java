@@ -10,4 +10,6 @@ public interface UserService {
     User getUserInfo2(int userId);
 
     List<User> getUserInfos(int minUserId);
+
+    void UpdateUserInfo(User user);
 }

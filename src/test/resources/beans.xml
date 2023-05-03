@@ -65,4 +65,10 @@
     <bean id="autowiredPostProcess" class="com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
     <bean id="realService2" class="org.example.service.impl.AopTestService2Impl"/>
+
+    <!-- transaction -->
+    <bean id="txInterceptor" class="com.minis.aop.framework.transaction.TransactionInterceptor">
+        <property type="com.minis.aop.framework.transaction.TransactionManager" name="transactionManager" ref="txdManager"/>
+    </bean>
+    <bean id="txdManager" class="com.minis.aop.framework.transaction.TransactionManager"/>
 </beans>

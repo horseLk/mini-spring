@@ -72,4 +72,9 @@ public class UserDao {
             }
         });
     }
+
+    public int updateUser1(int userId, String username) {
+        final String sql = "update t_user set name='" + username + "' where id=" + userId;
+        return jdbcTemplate.update(stmt -> stmt.executeUpdate(sql));
+    }
 }

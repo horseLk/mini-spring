@@ -28,4 +28,10 @@ public class UserServiceImpl implements UserService {
         List<User> users = userDao.getUsersWithMinId(minUserId);
         return users;
     }
+
+    @Override
+    public void UpdateUserInfo(User user) {
+        int line = userDao.updateUser1(user.getId(), user.getName());
+        System.out.println(line);
+    }
 }

@@ -76,4 +76,17 @@ public class AppTest
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testJdbcUpdate() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        try {
+            UserService userService = (UserService) context.getBean("userService");
+            userService.UpdateUserInfo(new User(1, "newName0503"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 }
