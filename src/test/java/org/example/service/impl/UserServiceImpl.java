@@ -34,4 +34,8 @@ public class UserServiceImpl implements UserService {
         int line = userDao.updateUser1(user.getId(), user.getName());
         System.out.println(line);
     }
+
+    public int UpdateUserInfo2(User user) {
+        return userDao.updateUser2(user.getId(), user.getName());
+    }
 }

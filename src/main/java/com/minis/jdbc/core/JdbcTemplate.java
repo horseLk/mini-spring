@@ -105,4 +105,20 @@ public class JdbcTemplate {
         return 0;
     }
 
+    public Integer update(String sql, Object[] args, PreparedStatementCallback pstmtCallback) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            ArgumentPreparedStatementSetter argumentSetter = new ArgumentPreparedStatementSetter(args);
+            argumentSetter.setValues(pstmt);
+            return (Integer) pstmtCallback.doInPreparedStatement(pstmt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 }

@@ -1320,4 +1320,19 @@ public abstract class StringUtils {
 		return arrayToDelimitedString(arr, ",");
 	}
 
+	public static int[] indexBatisReference(String str) {
+		int firstIndex = str.indexOf("#{");
+		if (firstIndex == -1) {
+			return null;
+		}
+		int lastIndex = firstIndex + 2;
+		while (lastIndex < str.length()) {
+			if (str.charAt(lastIndex) == '}') {
+				break;
+			}
+			lastIndex++;
+		}
+		return new int[]{firstIndex, lastIndex};
+	}
+
 }

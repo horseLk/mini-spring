@@ -35,6 +35,8 @@
     </bean>
     <bean id="jdbcTemplate" class="com.minis.jdbc.core.JdbcTemplate">
     </bean>
+    <bean id="sqlParser" class="com.minis.batis.DefaultSqlParser">
+    </bean>
     <bean id="userDao" class="org.example.dao.UserDao">
     </bean>
     <bean id="dataSource" class="com.minis.jdbc.pool.PooledDataSource">

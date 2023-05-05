@@ -8,6 +8,8 @@ public class MapperNode {
     private String sql;
     private String parameter;
 
+    private String[] attrs;
+
     public String getNamespace() {
         return namespace;
     }
@@ -54,5 +56,13 @@ public class MapperNode {
 
     public void setParameter(String parameter) {
         this.parameter = parameter;
+    }
+
+    public String[] getAttrs() {
+        return attrs;
+    }
+
+    public void setAttrs(String[] attrs) {
+        this.attrs = attrs;
     }
 }

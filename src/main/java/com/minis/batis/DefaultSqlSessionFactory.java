@@ -17,6 +17,9 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private SqlParser sqlParser;
+
     private String mapperLocations;
 
     private Map<String, MapperNode> mapperNodeMap = new HashMap<>();
@@ -81,6 +84,11 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
             selectnode.setResultType(resultType);
             selectnode.setSql(sql);
             selectnode.setParameter("");
+            try {
+                sqlParser.parseSql(selectnode);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             this.mapperNodeMap.put(namespace + "." + id, selectnode);
         }
@@ -92,6 +100,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     public SqlSession openSession() {
         SqlSession newSqlSession = new DefaultSqlSession();
         newSqlSession.setJdbcTemplate(jdbcTemplate);
+        newSqlSession.setSqlParser(sqlParser);
         newSqlSession.setSqlSessionFactory(this);
 
         return newSqlSession;

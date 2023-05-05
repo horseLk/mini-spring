@@ -6,5 +6,7 @@
         where id=?
     </select>
 
-<!--    <update id="updateUserInfo1" para-->
+    <update id="updateUserInfo" parameterType="org.example.domain.User" resultType="java.lang.Integer">
+        update t_user set name=#{name} where id=#{id}
+    </update>
 </mapper>

@@ -77,4 +77,10 @@ public class UserDao {
         final String sql = "update t_user set name='" + username + "' where id=" + userId;
         return jdbcTemplate.update(stmt -> stmt.executeUpdate(sql));
     }
+
+    public int updateUser2(int userId, String username) {
+        String sqlId = "org.example.domain.User.updateUserInfo";
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        return sqlSession.update(sqlId, new Object[]{new User(userId, username)}, pstmt -> pstmt.executeUpdate());
+    }
 }
