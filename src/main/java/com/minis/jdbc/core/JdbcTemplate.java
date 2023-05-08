@@ -116,6 +116,13 @@ public class JdbcTemplate {
             return (Integer) pstmtCallback.doInPreparedStatement(pstmt);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return 0;

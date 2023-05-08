@@ -6,6 +6,7 @@ import com.minis.beans.BeansException;
 import com.minis.context.ClassPathXmlApplicationContext;
 import com.minis.web.servlet.DispatcherServlet;
 import org.example.domain.User;
+import org.example.domain.UserClass;
 import org.example.service.*;
 import org.junit.Test;
 
@@ -95,6 +96,19 @@ public class AppTest
         try {
             UserService userService = (UserService) context.getBean("userService");
             int line = userService.UpdateUserInfo2(new User(1, "newName050511"));
+            System.out.println(line);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testUpdate3() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        try {
+            UserClassService userClassService = (UserClassService) context.getBean("realUserClassService");
+            int line = userClassService.doUpdateClass(new UserClass(1, "className0508"));
             System.out.println(line);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.minis.aop;
 
+import com.minis.beans.factory.FactoryBean;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -23,12 +25,17 @@ public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (this.advisor.getPointcut().getMethodMatcher().matches(method, target.getClass())) {
-            Class<?> targetClass = (target != null ? target.getClass() : null);
+        Class<?> targetClass = (target != null ? target.getClass() : null);
+        if (target instanceof FactoryBean) {
             MethodInterceptor interceptor = this.advisor.getMethodInterceptor();
             MethodInvocation invocation = new ReflectiveMethodInvocation(proxy, target, method, args, targetClass);
             return interceptor.invoke(invocation);
         }
-        return null;
+        if (this.advisor.getPointcut().getMethodMatcher().matches(method, target.getClass())) {
+            MethodInterceptor interceptor = this.advisor.getMethodInterceptor();
+            MethodInvocation invocation = new ReflectiveMethodInvocation(proxy, target, method, args, targetClass);
+            return interceptor.invoke(invocation);
+        }
+        return new EmptyAdviceInterceptor().invoke(new ReflectiveMethodInvocation(proxy, target, method, args, targetClass));
     }
 }

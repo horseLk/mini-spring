@@ -66,8 +66,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
             }
         }
 
-        if (singleton instanceof FactoryBean) {
-            return this.getObjectForBeanInstance(singleton, beanName);
+        while (singleton instanceof FactoryBean) {
+            singleton = this.getObjectForBeanInstance(singleton, beanName);
         }
         return singleton;
     }

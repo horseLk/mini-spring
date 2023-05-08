@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
+    <bean id="autowiredPostProcess" class="com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
     <bean id="aservice" class="org.example.service.impl.AServiceImpl">
         <constructor-arg type="String" name="name" value="abc"/>
         <constructor-arg type="int" name="level" value="3"/>
@@ -44,7 +46,7 @@
         <property type="String" name="url" value="jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>
         <property type="String" name="username" value="root"/>
         <property type="String" name="password" value="horse..0"/>
-        <property type="int" name="initialSize" value="3"/>
+        <property type="int" name="initialSize" value="10"/>
     </bean>
     <bean id="sqlSessionFactory" class="com.minis.batis.DefaultSqlSessionFactory" init-method="init">
         <property type="String" name="mapperLocations" value="mapper"/>
@@ -64,7 +66,6 @@
         <property type="String" name="pattern" value="real*"/>
         <property type="String" name="interceptorName" value="advisor"/>
     </bean>
-    <bean id="autowiredPostProcess" class="com.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
     <bean id="realService2" class="org.example.service.impl.AopTestService2Impl"/>
 
@@ -73,4 +74,16 @@
         <property type="com.minis.aop.framework.transaction.TransactionManager" name="transactionManager" ref="txdManager"/>
     </bean>
     <bean id="txdManager" class="com.minis.aop.framework.transaction.TransactionManager"/>
+    <bean id="txAdvisor" class="com.minis.aop.NameMatchMethodPointcutAdvisor">
+        <property type="com.minis.aop.Advice" name="advice" ref="txInterceptor"/>
+        <property type="String" name="mappedName" value="*WithTransaction"/>
+    </bean>
+
+    <bean id="userClassDao" class="org.example.dao.UserClassDao"/>
+    <bean id="realUserClassService" class="org.example.service.impl.UserClassServiceImpl"/>
+
+    <bean id="txProxy" class="com.minis.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property type="String" name="pattern" value="*Service"/>
+        <property type="String" name="interceptorName" value="txAdvisor"/>
+    </bean>
 </beans>

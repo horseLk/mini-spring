@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="org.example.domain.UserClass">
+    <update id="updateClass" parameterType="org.example.domain.UserClass" resultType="java.lang.Integer">
+        update t_class set class_name=#{className} where id=#{id}
+    </update>
+</mapper>
