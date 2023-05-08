@@ -1,5 +1,6 @@
 package com.minis.jdbc.core;
 
+import com.minis.aop.framework.transaction.ConnectionThreadLocal;
 import com.minis.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
@@ -89,7 +90,9 @@ public class JdbcTemplate {
         Statement stmt = null;
 
         try {
-            conn = dataSource.getConnection();
+            if ((conn = ConnectionThreadLocal.get()) == null) {
+                conn = dataSource.getConnection();
+            }
             stmt = conn.createStatement();
             return (Integer) stmtCallback.doInStatement(stmt);
         } catch (Exception e) {
@@ -109,7 +112,9 @@ public class JdbcTemplate {
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
-            conn = dataSource.getConnection();
+            if ((conn = ConnectionThreadLocal.get()) == null) {
+                conn = dataSource.getConnection();
+            }
             pstmt = conn.prepareStatement(sql);
             ArgumentPreparedStatementSetter argumentSetter = new ArgumentPreparedStatementSetter(args);
             argumentSetter.setValues(pstmt);

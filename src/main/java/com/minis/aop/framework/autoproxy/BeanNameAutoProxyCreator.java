@@ -3,6 +3,7 @@ package com.minis.aop.framework.autoproxy;
 import com.minis.aop.*;
 import com.minis.beans.BeansException;
 import com.minis.beans.factory.BeanFactory;
+import com.minis.beans.factory.FactoryBean;
 import com.minis.beans.factory.config.BeanPostProcessor;
 import com.minis.util.PatternMatchUtils;
 
@@ -65,6 +66,10 @@ public class BeanNameAutoProxyCreator implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (isMatch(beanName, pattern)) {
+            if (bean instanceof FactoryBean) {
+                bean = ((FactoryBean) bean).getObject();
+            }
+
             ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
             proxyFactoryBean.setTarget(bean);
             proxyFactoryBean.setBeanFactory(beanFactory);

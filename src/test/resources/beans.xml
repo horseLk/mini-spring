@@ -54,18 +54,25 @@
 
     <bean id="realService" class="org.example.service.impl.AopTestServiceImpl"/>
     <bean id="tracingInterceptor" class="org.example.interceptor.TracingInterceptor"/>
-<!--    <bean id="aopTestService" class="com.minis.aop.ProxyFactoryBean" init-method="initializeAdvisor">-->
-<!--        <property type="java.lang.Object" name="target" ref="realService"/>-->
-<!--        <property type="String" name="interceptorName" value="advisor"/>-->
-<!--    </bean>-->
+    <bean id="tracingInterceptor2" class="org.example.interceptor.TracingInterceptor"/>
+
     <bean id="advisor" class="com.minis.aop.NameMatchMethodPointcutAdvisor">
         <property type="com.minis.aop.Advice" name="advice" ref="tracingInterceptor"/>
+        <property type="String" name="mappedName" value="do*"/>
+    </bean>
+
+    <bean id="advisor2" class="com.minis.aop.NameMatchMethodPointcutAdvisor">
+        <property type="com.minis.aop.Advice" name="advice" ref="tracingInterceptor2"/>
         <property type="String" name="mappedName" value="do*"/>
     </bean>
     <bean id="autoProxyCreator" class="com.minis.aop.framework.autoproxy.BeanNameAutoProxyCreator">
         <property type="String" name="pattern" value="real*"/>
         <property type="String" name="interceptorName" value="advisor"/>
     </bean>
+    <bean id="autoProxyCreator2" class="com.minis.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property type="String" name="pattern" value="real*"/>
+    <property type="String" name="interceptorName" value="advisor"/>
+</bean>
 
     <bean id="realService2" class="org.example.service.impl.AopTestService2Impl"/>
 

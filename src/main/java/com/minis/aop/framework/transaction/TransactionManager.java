@@ -9,9 +9,9 @@ public class TransactionManager {
     @Autowired
     private DataSource dataSource;
 
-    Connection conn = null;
 
-    protected void doBegin() {
+    protected Connection doBegin() {
+        Connection conn = null;
         try {
             conn = dataSource.getConnection();
             if (conn.getAutoCommit()) {
@@ -20,24 +20,27 @@ public class TransactionManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return conn;
     }
 
-    protected void doCommit() {
+    protected void doCommit(Connection conn) {
         if (conn != null) {
             try {
                 conn.commit();
                 conn.setAutoCommit(true);
+                conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    protected void doRollback() {
+    protected void doRollback(Connection conn) {
         if (conn != null) {
             try {
                 conn.rollback();
                 conn.setAutoCommit(true);
+                conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

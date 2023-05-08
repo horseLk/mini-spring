@@ -116,4 +116,17 @@ public class AppTest
         }
     }
 
+    @Test
+    public void testTransaction() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        try {
+            UserClassService userClassService = (UserClassService) context.getBean("realUserClassService");
+            userClassService.doUpdateWithTransaction(new User(1, "userName0508-trans2"), new UserClass(1, "className0508-trans2"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

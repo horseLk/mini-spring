@@ -21,8 +21,10 @@ public class UserClassServiceImpl implements UserClassService {
 
     @Override
     public void doUpdateWithTransaction(User user, UserClass userClass) {
+        System.out.println("update user class");
         userClassDao.updateClass(userClass);
         int t = 1/0;
+        System.out.println("update user");
         userDao.updateUser2(user.getId(), user.getName());
     }
 }
